@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 
 	"github.com/iamseki/csv-to-db/app/mongousecase"
 	"github.com/iamseki/csv-to-db/infra/csv"
@@ -11,7 +12,9 @@ import (
 
 func main() {
 	var filename string
-	flag.StringVar(&filename, "filename", "CDI_Prices.csv", "csv filename to convert, e.g --filename=CDI_Prices.csv")
+	dir, _ := os.Getwd()
+	scriptsDir := dir + "/scripts/"
+	flag.StringVar(&filename, "filename", scriptsDir+"CDI_Prices.csv", "csv filename to convert, e.g --filename=CDI_Prices.csv")
 	flag.Parse()
 
 	parser := csv.NewCDIFromCSV(filename)
