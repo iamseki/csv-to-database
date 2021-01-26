@@ -1,6 +1,10 @@
 package mongodb
 
-import "github.com/iamseki/csv-to-db/contracts"
+import (
+	"log"
+
+	"github.com/iamseki/csv-to-db/contracts"
+)
 
 type InsertCDIsMongoRepository struct {
 	Client *Mongo
@@ -13,14 +17,20 @@ func NewInsertCDIsMongoRepository() *InsertCDIsMongoRepository {
 }
 
 func (m *InsertCDIsMongoRepository) InsertMany(cdis []contracts.CDI) error {
-	resultCollection := m.Client.getCollection("cdi")
+	cdiCollection := m.Client.getCollection("cdi")
+
+	docsToTestTreshold := int64(100)
+	numberOfDocs, err := cdiCollection.EstimatedDocumentCount(m.Client.Ctx)
+	if numberOfDocs > docsToTestTreshold {
+		log.Fatalln("CDIs already inserted into CDI mongo collection")
+	}
 
 	docs := []interface{}{}
 	for _, cdi := range cdis {
 		docs = append(docs, cdi)
 	}
 
-	_, err := resultCollection.InsertMany(m.Client.Ctx, docs)
+	_, err = cdiCollection.InsertMany(m.Client.Ctx, docs)
 	if err != nil {
 		return err
 	}
