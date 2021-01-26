@@ -6,10 +6,12 @@ import (
 	"github.com/iamseki/csv-to-db/contracts"
 )
 
-type CDIParser struct{}
+type CDIParser struct {
+	filename string
+}
 
-func NewCDIFromCSV() *CDIParser {
-	return &CDIParser{}
+func NewCDIFromCSV(filename string) *CDIParser {
+	return &CDIParser{filename}
 }
 
 func (c *CDIParser) ConvertCDIFromCSV() []contracts.CDI {
@@ -17,7 +19,7 @@ func (c *CDIParser) ConvertCDIFromCSV() []contracts.CDI {
 	standardSampleLayout := "02/01/2006"
 	DATE_INDEX, VALUE_INDEX := 1, 2
 
-	r, os := getCSVReader("CDI_Prices.csv")
+	r, os := getCSVReader(c.filename)
 	defer os.Close()
 
 	header := getCSVNextRecord(r)
