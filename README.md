@@ -8,3 +8,6 @@
 
 - MONGO_URL default `localhost:27017`
 
+## Usage
+
+- go run main/*.go --filename "example.csv"
