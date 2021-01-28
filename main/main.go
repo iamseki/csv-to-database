@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"log"
 	"os"
 
@@ -11,13 +10,12 @@ import (
 )
 
 func main() {
-	var filename string
-	dir, _ := os.Getwd()
-	scriptsDir := dir + "/scripts/"
-	flag.StringVar(&filename, "filename", scriptsDir+"CDI_Prices.csv", "csv filename to convert, e.g --filename=CDI_Prices.csv")
-	flag.Parse()
+	options := parseProgramFlags()
 
-	parser := csv.NewCDIFromCSV(filename)
+	log.Println(options.filename)
+	os.Exit(0)
+
+	parser := csv.NewCDIFromCSV(options.filename)
 	repository := mongodb.NewInsertCDIsMongoRepository()
 	usecase := mongousecase.NewCDIsToMongoDB(repository, parser)
 
