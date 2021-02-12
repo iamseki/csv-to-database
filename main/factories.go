@@ -8,7 +8,7 @@ import (
 )
 
 func newCDIToMongoDBUseCase(options flags) domain.CSVToDatabaseWriter {
-	parser := csv.NewCDIFromCSV(options.filename)
+	parser := csv.NewCDIFromCSV(options.cdiFilename)
 	repository := mongodb.NewInsertCDIsMongoRepository()
 	return mongousecase.NewCDIsToMongoDB(repository, parser)
 }
