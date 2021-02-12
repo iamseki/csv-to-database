@@ -2,24 +2,14 @@ package main
 
 import (
 	"log"
-	"os"
-
-	"github.com/iamseki/csv-to-db/app/mongousecase"
-	"github.com/iamseki/csv-to-db/infra/csv"
-	"github.com/iamseki/csv-to-db/infra/db/mongodb"
 )
 
 func main() {
 	options := parseProgramFlags()
 
-	log.Println(options.filename)
-	os.Exit(0)
+	cdiUsecase := newCDIToMongoDBUseCase(options)
 
-	parser := csv.NewCDIFromCSV(options.filename)
-	repository := mongodb.NewInsertCDIsMongoRepository()
-	usecase := mongousecase.NewCDIsToMongoDB(repository, parser)
-
-	err := usecase.ConvertCdiCsvToMongodb()
+	err := cdiUsecase.ConvertCdiCsvToMongodb()
 	if err != nil {
 		log.Fatalln(err)
 	}
