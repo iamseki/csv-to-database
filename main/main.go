@@ -9,7 +9,7 @@ func main() {
 
 	cdiUsecase := newCDIToMongoDBUseCase(options)
 
-	err := cdiUsecase.ConvertCdiCsvToMongodb()
+	err := cdiUsecase.ConvertCSVIntoDB()
 	if err != nil {
 		log.Fatalln(err)
 	}

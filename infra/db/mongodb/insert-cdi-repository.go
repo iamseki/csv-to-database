@@ -3,7 +3,7 @@ package mongodb
 import (
 	"log"
 
-	"github.com/iamseki/csv-to-db/contracts"
+	"github.com/iamseki/csv-to-db/domain"
 )
 
 type InsertCDIsMongoRepository struct {
@@ -16,7 +16,7 @@ func NewInsertCDIsMongoRepository() *InsertCDIsMongoRepository {
 	}
 }
 
-func (m *InsertCDIsMongoRepository) InsertMany(cdis []contracts.CDI) error {
+func (m *InsertCDIsMongoRepository) InsertMany(cdis []domain.CDI) error {
 	cdiCollection := m.Client.getCollection("cdi")
 
 	docsToTestTreshold := int64(100)
